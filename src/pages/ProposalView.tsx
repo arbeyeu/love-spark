@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { Button } from '@/components/ui/button';
 import { useJourney } from '@/context/JourneyContext';
-import { Heart } from 'lucide-react';
+import { Heart, Share2, Copy, Check } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ProposalView = () => {
   const navigate = useNavigate();
   const { state } = useJourney();
   const [accepted, setAccepted] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleYes = () => {
     setAccepted(true);
@@ -20,30 +22,32 @@ const ProposalView = () => {
       colors: ['#ff0000', '#ffa500', '#ffffff']
     });
 
-    // Fire fireworks
     const duration = 3000;
     const end = Date.now() + duration;
 
     (function frame() {
-      confetti({
-        particleCount: 5,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#ff0000', '#ffa500']
-      });
-      confetti({
-        particleCount: 5,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#ff0000', '#ffa500']
-      });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
+      confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffa500'] });
+      confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffa500'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
     }());
+  };
+
+  const handleShareLink = () => {
+    const shareUrl = `${window.location.origin}/proposal-view`;
+    const shareText = `💕 ${state.partnerName}, someone special has a proposal for you! Open this link to see it: ${shareUrl}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: `A Proposal for ${state.partnerName}`,
+        text: shareText,
+        url: shareUrl
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      toast.success('Share link copied to clipboard!');
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   if (!state.proposalDetails) return null;
@@ -78,12 +82,22 @@ const ProposalView = () => {
         animate={{ scale: 1, opacity: 1 }}
         className="z-10 w-full max-w-2xl bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl text-center border border-white/50"
       >
+        {/* Share button */}
+        <div className="flex justify-end mb-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleShareLink}
+            className="rounded-full flex items-center gap-2"
+          >
+            {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
+            {copied ? 'Copied!' : 'Share with Partner'}
+          </Button>
+        </div>
+
         <AnimatePresence mode="wait">
           {!accepted ? (
-            <motion.div
-              key="proposal"
-              exit={{ opacity: 0, y: -20 }}
-            >
+            <motion.div key="proposal" exit={{ opacity: 0, y: -20 }}>
               <h1 className="text-5xl md:text-6xl font-bold mb-8 font-display text-gray-900">
                 {state.partnerName}
               </h1>

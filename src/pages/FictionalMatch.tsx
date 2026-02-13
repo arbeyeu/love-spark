@@ -3,14 +3,18 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { fictionalCouples } from '@/data/romanticData';
+import { Badge } from '@/components/ui/badge';
+import { fictionalCouples, partnerProfiles } from '@/data/romanticData';
 import { useJourney } from '@/context/JourneyContext';
+import { Heart, MapPin, Sparkles, Send } from 'lucide-react';
 
 const FictionalMatch = () => {
   const navigate = useNavigate();
   const { updateState } = useJourney();
   const [step, setStep] = useState(0);
   const [matchedCouple, setMatchedCouple] = useState<typeof fictionalCouples[0] | null>(null);
+  const [partnerProfile, setPartnerProfile] = useState<typeof partnerProfiles[0] | null>(null);
+  const [showPartnerCard, setShowPartnerCard] = useState(false);
 
   const questions = [
     {
@@ -27,11 +31,16 @@ const FictionalMatch = () => {
     if (step < questions.length - 1) {
       setStep(step + 1);
     } else {
-      // Simulate matching logic - picking random for demo
       const randomMatch = fictionalCouples[Math.floor(Math.random() * fictionalCouples.length)];
+      const randomPartner = partnerProfiles[Math.floor(Math.random() * partnerProfiles.length)];
       setMatchedCouple(randomMatch);
-      updateState({ fictionalMatch: randomMatch.name });
+      setPartnerProfile(randomPartner);
+      updateState({ fictionalMatch: randomMatch.name, partnerName: randomPartner.name });
     }
+  };
+
+  const handleContinueToPartner = () => {
+    setShowPartnerCard(true);
   };
 
   return (
@@ -61,7 +70,7 @@ const FictionalMatch = () => {
               </div>
             </div>
           </Card>
-        ) : (
+        ) : !showPartnerCard ? (
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -82,11 +91,65 @@ const FictionalMatch = () => {
                 <p className="text-sm font-medium text-primary uppercase tracking-wider mb-2">{matchedCouple.show}</p>
                 <p className="text-lg text-muted-foreground mb-8">{matchedCouple.description}</p>
                 <Button 
-                  onClick={() => navigate('/compatibility')}
+                  onClick={handleContinueToPartner}
                   className="w-full py-6 text-lg rounded-full"
                 >
-                  Continue Journey →
+                  See Your Match →
                 </Button>
+              </div>
+            </Card>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-center"
+          >
+            <Card className="overflow-hidden glass-card border-none shadow-2xl shadow-rose-200/50">
+              <div className="relative">
+                <div className="h-72 overflow-hidden">
+                  <img 
+                    src={partnerProfile!.photo} 
+                    alt={partnerProfile!.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-6 text-left text-white">
+                  <h2 className="text-3xl font-bold flex items-center gap-2">
+                    {partnerProfile!.name}, {partnerProfile!.age}
+                    <Sparkles className="w-5 h-5 text-yellow-300" />
+                  </h2>
+                  <p className="flex items-center gap-1 text-white/80 text-sm mt-1">
+                    <MapPin className="w-4 h-4" /> {partnerProfile!.city}
+                    <span className="ml-2">{partnerProfile!.zodiac}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="p-6 text-left">
+                <p className="text-muted-foreground italic mb-4">"{partnerProfile!.bio}"</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {partnerProfile!.interests.map(interest => (
+                    <Badge key={interest} variant="secondary" className="bg-rose-100 text-rose-700 border-none">
+                      {interest}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    onClick={() => navigate('/compatibility')}
+                    variant="outline"
+                    className="py-6 text-lg rounded-full border-2"
+                  >
+                    Skip Proposal
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/compatibility')}
+                    className="py-6 text-lg rounded-full flex items-center gap-2"
+                  >
+                    <Send className="w-5 h-5" /> Send Proposal
+                  </Button>
+                </div>
               </div>
             </Card>
           </motion.div>
