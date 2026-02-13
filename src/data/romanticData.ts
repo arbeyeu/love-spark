@@ -61,28 +61,28 @@ export const dateLocations = [
     name: "Versova Beach Sunset Walk",
     description: "Golden hour magic with gentle waves",
     activity: "Hand-in-hand stroll",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?w=800&auto=format&fit=crop&q=80"
   },
   {
     id: "jetty-view",
     name: "Versova Jetty Evening",
     description: "Quiet moments watching the horizon",
     activity: "Deep conversations",
-    image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&auto=format&fit=crop&q=80"
   },
   {
     id: "cozy-cafe",
     name: "Cozy Cafe Corner",
     description: "Warm lights and coffee aroma",
     activity: "Sharing stories",
-    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&auto=format&fit=crop&q=80"
   },
   {
     id: "beach-dinner",
     name: "Beachside Dinner",
     description: "Candlelight under the stars",
     activity: "Romantic dining",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16549766b?w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&auto=format&fit=crop&q=80"
   }
 ];
 
@@ -150,17 +150,17 @@ export const nearbyRestaurants = [
 ];
 
 export const flowerOptions = [
-  { id: "roses", name: "Red Roses Bouquet", icon: "🌹", image: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=red+roses" },
+  { id: "roses", name: "Red Roses Bouquet", icon: "🌹", image: "https://images.unsplash.com/photo-1494972308805-463bc619d34e?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", blinkitUrl: "https://blinkit.com/s/?q=red+roses" },
   { id: "mixed", name: "Mixed Wildflowers", icon: "💐", image: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=flower+bouquet" },
   { id: "tulips", name: "Elegant Tulips", icon: "🌷", image: "https://images.unsplash.com/photo-1520763185298-1b434c919102?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=tulips" },
   { id: "lilies", name: "White Lilies", icon: "⚜️", image: "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=white+lilies" }
 ];
 
 export const giftOptions = [
-  { id: "teddy", name: "Giant Teddy Bear", icon: "🧸", image: "https://images.unsplash.com/photo-1559715541-5daf8a0296d0?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=teddy+bear" },
+  { id: "teddy", name: "Giant Teddy Bear", icon: "🧸", image: "https://images.unsplash.com/photo-1602734846297-9299fc2d4703?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", blinkitUrl: "https://blinkit.com/s/?q=teddy+bear" },
   { id: "chocolate", name: "Swiss Chocolates", icon: "🍫", image: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=chocolate+gift+box" },
   { id: "jewelry", name: "Silver Necklace", icon: "💎", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=necklace" },
-  { id: "photo", name: "Framed Memory", icon: "🖼️", image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&auto=format&fit=crop", blinkitUrl: "https://blinkit.com/s/?q=photo+frame" }
+  { id: "photo", name: "Framed Memory", icon: "🖼️", image: "https://media.istockphoto.com/id/1223521804/photo/young-couple-looking-in-photo-frame-at-street-market-stock-photo.jpg?s=2048x2048&w=is&k=20&c=OU-jTVcClTjSaLIe0NKzEbyfhpTROnlBK_jVz3BEjgE=", blinkitUrl: "https://blinkit.com/s/?q=photo+frame" }
 ];
 
 export const foodOptions = [
@@ -176,3 +176,91 @@ export const proposalThemes = [
   { id: "vintage", name: "Vintage Charm", icon: "📜", color: "bg-amber-100" },
   { id: "dreamy", name: "Dreamy Fantasy", icon: "🌙", color: "bg-blue-100" }
 ];
+
+// Fictional Date Planning Options
+export const dateActivities = [
+  {
+    id: "stargazing",
+    name: "Stargazing on a Rooftop",
+    icon: "🌟",
+    description: "Like in 'La La Land' - dancing under the stars",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "rain-dance",
+    name: "Dancing in the Rain",
+    icon: "🌧️",
+    description: "Classic Bollywood romance moment",
+    image: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "movie-night",
+    name: "Private Movie Screening",
+    icon: "🎬",
+    description: "Your own cinema, just the two of you",
+    image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "cooking",
+    name: "Cooking Together",
+    icon: "👨‍🍳",
+    description: "Like in 'Julie & Julia' - creating magic in the kitchen",
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "art-gallery",
+    name: "Art Gallery Stroll",
+    icon: "🎨",
+    description: "Getting lost in art and conversation",
+    image: "https://images.unsplash.com/photo-1577083552431-6e5fd01988ec?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "beach-sunset",
+    name: "Beach Sunset Walk",
+    icon: "🌅",
+    description: "Footprints in the sand, hand in hand",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "bookstore",
+    name: "Bookstore Adventure",
+    icon: "📚",
+    description: "Like 'You've Got Mail' - finding stories together",
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: "ferris-wheel",
+    name: "Ferris Wheel Ride",
+    icon: "🎡",
+    description: "The Notebook moment - top of the world",
+    image: "https://images.unsplash.com/photo-1524850011238-e3d235c7d4c9?w=400&auto=format&fit=crop&q=80"
+  }
+];
+
+export const dateAmbiance = [
+  { id: "cozy", name: "Cozy & Intimate", icon: "🕯️", description: "Warm lights, soft music, close conversations" },
+  { id: "playful", name: "Fun & Playful", icon: "🎈", description: "Laughter, games, and spontaneous moments" },
+  { id: "adventurous", name: "Adventurous", icon: "🗺️", description: "Exciting, unexpected, full of surprises" },
+  { id: "elegant", name: "Elegant & Classy", icon: "🥂", description: "Sophisticated, refined, timeless romance" },
+  { id: "magical", name: "Magical & Dreamy", icon: "✨", description: "Fairy tale vibes, pure enchantment" }
+];
+
+export const dateTimeSlots = [
+  { id: "morning", name: "Morning Magic", icon: "🌄", time: "Sunrise coffee & breakfast" },
+  { id: "afternoon", name: "Afternoon Adventure", icon: "☀️", time: "Lunch & exploration" },
+  { id: "sunset", name: "Golden Hour", icon: "🌇", time: "Sunset views & romance" },
+  { id: "evening", name: "Evening Elegance", icon: "🌃", time: "Dinner & moonlight" },
+  { id: "midnight", name: "Midnight Magic", icon: "🌙", time: "Late night talks & stargazing" }
+];
+
+export const specialTouches = [
+  { id: "flowers", name: "Surprise Flowers", icon: "💐", description: "A beautiful bouquet to start the date" },
+  { id: "playlist", name: "Custom Playlist", icon: "🎵", description: "Songs that tell your story" },
+  { id: "handwritten", name: "Handwritten Note", icon: "💌", description: "Words from the heart on paper" },
+  { id: "polaroid", name: "Polaroid Moments", icon: "📸", description: "Capturing memories instantly" },
+  { id: "fairy-lights", name: "Fairy Lights Setup", icon: "💡", description: "Creating a magical atmosphere" },
+  { id: "surprise-gift", name: "Surprise Gift", icon: "🎁", description: "A thoughtful present" },
+  { id: "love-letter", name: "Love Letter", icon: "✉️", description: "Pouring your heart out in words" },
+  { id: "candles", name: "Candlelit Setting", icon: "🕯️", description: "Romantic ambiance with candles" }
+];
+
