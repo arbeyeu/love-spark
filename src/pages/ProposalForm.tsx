@@ -8,11 +8,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useJourney } from '@/context/JourneyContext';
+import { proposalThemes } from '@/data/romanticData';
 
 const ProposalForm = () => {
   const navigate = useNavigate();
-  const { updateState } = useJourney();
-  const { register, handleSubmit } = useForm();
+  const { state, updateState } = useJourney();
+  const { register, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      partnerName: state.partnerName || '',
+      message: '',
+      memory: '',
+      tone: '',
+      theme: 'classic'
+    }
+  });
+
+  const selectedTheme = watch('theme');
 
   const onSubmit = (data: any) => {
     updateState({
@@ -21,7 +32,7 @@ const ProposalForm = () => {
         message: data.message,
         memory: data.memory,
         tone: data.tone,
-        theme: 'classic',
+        theme: data.theme,
         photo: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&auto=format&fit=crop'
       }
     });
@@ -77,6 +88,27 @@ const ProposalForm = () => {
                     <label key={tone} className="flex items-center space-x-2 p-3 rounded-lg border bg-white/50 cursor-pointer hover:border-primary">
                       <input type="radio" value={tone.toLowerCase()} {...register('tone')} className="accent-primary" />
                       <span>{tone}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Theme</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  {proposalThemes.map((theme) => (
+                    <label 
+                      key={theme.id} 
+                      className={`flex items-center space-x-3 p-4 rounded-lg border cursor-pointer transition-all ${selectedTheme === theme.id ? 'ring-2 ring-primary border-primary' : 'bg-white/50 hover:border-primary/50'}`}
+                    >
+                      <input 
+                        type="radio" 
+                        value={theme.id} 
+                        {...register('theme')} 
+                        className="sr-only" 
+                      />
+                      <span className="text-2xl">{theme.icon}</span>
+                      <span className="font-medium">{theme.name}</span>
                     </label>
                   ))}
                 </div>
