@@ -3,16 +3,18 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { dateLocations, flowerOptions, giftOptions, foodOptions } from '@/data/romanticData';
+import { dateLocations, nearbyRestaurants, flowerOptions, giftOptions, foodOptions } from '@/data/romanticData';
 import { useJourney } from '@/context/JourneyContext';
-import { Check, Gift, MapPin, Truck } from 'lucide-react';
+import { Check, Gift, MapPin, Truck, Star, ExternalLink, ShoppingCart, UtensilsCrossed } from 'lucide-react';
 
 const DatePlanner = () => {
   const navigate = useNavigate();
   const { state, updateState } = useJourney();
   const [selections, setSelections] = useState({
     location: '',
+    restaurant: '',
     flower: '',
     gift: '',
     food: ''
@@ -22,19 +24,16 @@ const DatePlanner = () => {
     setSelections(prev => ({ ...prev, [category]: value }));
   };
 
-  const isComplete = Object.values(selections).every(val => val !== '');
+  const isComplete = selections.location && selections.flower && selections.gift && selections.food;
 
   const handleComplete = () => {
-    updateState({ datePlan: selections });
+    updateState({ datePlan: { location: selections.location, flower: selections.flower, gift: selections.gift, food: selections.food } });
     navigate('/song-generator');
   };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
 
   const itemVariants = {
@@ -48,7 +47,6 @@ const DatePlanner = () => {
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">Plan Your Perfect Date</h1>
         <p className="text-center text-muted-foreground mb-2">Curate every detail of your special evening</p>
         
-        {/* Delivery note */}
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -59,20 +57,17 @@ const DatePlanner = () => {
         </motion.div>
 
         <Tabs defaultValue="location" className="w-full">
-          <TabsList className="w-full grid grid-cols-4 mb-8 bg-white/50 backdrop-blur">
-            <TabsTrigger value="location" className="flex items-center gap-1"><MapPin className="w-3 h-3" /> Location</TabsTrigger>
-            <TabsTrigger value="flower">🌸 Flowers</TabsTrigger>
-            <TabsTrigger value="gift" className="flex items-center gap-1"><Gift className="w-3 h-3" /> Gift</TabsTrigger>
-            <TabsTrigger value="food">🍽️ Food</TabsTrigger>
+          <TabsList className="w-full grid grid-cols-5 mb-8 bg-white/50 backdrop-blur">
+            <TabsTrigger value="location" className="flex items-center gap-1 text-xs md:text-sm"><MapPin className="w-3 h-3" /> Location</TabsTrigger>
+            <TabsTrigger value="restaurant" className="flex items-center gap-1 text-xs md:text-sm"><UtensilsCrossed className="w-3 h-3" /> Restaurant</TabsTrigger>
+            <TabsTrigger value="flower" className="text-xs md:text-sm">🌸 Flowers</TabsTrigger>
+            <TabsTrigger value="gift" className="flex items-center gap-1 text-xs md:text-sm"><Gift className="w-3 h-3" /> Gift</TabsTrigger>
+            <TabsTrigger value="food" className="text-xs md:text-sm">🍽️ Food</TabsTrigger>
           </TabsList>
 
+          {/* Location tab */}
           <TabsContent value="location" className="mt-0">
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {dateLocations.map(loc => (
                 <motion.div key={loc.id} variants={itemVariants}>
                   <Card 
@@ -95,7 +90,57 @@ const DatePlanner = () => {
             </motion.div>
           </TabsContent>
 
-          {/* Image-based selection grid for flowers, gifts, food */}
+          {/* Nearby Restaurants tab */}
+          <TabsContent value="restaurant" className="mt-0">
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {nearbyRestaurants.map(rest => (
+                <motion.div key={rest.id} variants={itemVariants}>
+                  <Card 
+                    className={`cursor-pointer overflow-hidden transition-all ${selections.restaurant === rest.name ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'}`}
+                    onClick={() => handleSelect('restaurant', rest.name)}
+                  >
+                    <div className="h-36 overflow-hidden relative">
+                      <img src={rest.image} alt={rest.name} className="w-full h-full object-cover" />
+                      {selections.restaurant === rest.name && (
+                        <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-1">
+                          <Check className="w-4 h-4" />
+                        </div>
+                      )}
+                      <div className="absolute bottom-2 left-2">
+                        <Badge className="bg-white/90 text-foreground border-none shadow-sm">{rest.priceRange}</Badge>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-1">
+                        <h3 className="font-semibold">{rest.name}</h3>
+                        <div className="flex items-center gap-1 text-sm text-amber-600">
+                          <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          {rest.rating}
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{rest.cuisine}</p>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <MapPin className="w-3 h-3" /> {rest.distance}
+                        </span>
+                        <a
+                          href={rest.mapLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-primary hover:underline flex items-center gap-1"
+                        >
+                          View on Maps <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </TabsContent>
+
+          {/* Flowers, Gifts, Food tabs with Blinkit buttons */}
           {[
             { value: 'flower', data: flowerOptions, key: 'flower' },
             { value: 'gift', data: giftOptions, key: 'gift' },
@@ -120,6 +165,27 @@ const DatePlanner = () => {
                     <div className="p-3 text-center">
                       <span className="text-lg mr-1">{item.icon}</span>
                       <h3 className="font-medium text-sm">{item.name}</h3>
+                      {/* Blinkit buttons */}
+                      <div className="flex gap-1 mt-2">
+                        <a
+                          href={item.blinkitUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 text-[10px] bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-full py-1.5 px-2 flex items-center justify-center gap-1 transition-colors"
+                        >
+                          <ShoppingCart className="w-3 h-3" /> Blinkit
+                        </a>
+                        <a
+                          href={item.blinkitUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 text-[10px] bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full py-1.5 px-2 flex items-center justify-center gap-1 transition-colors"
+                        >
+                          Order Now
+                        </a>
+                      </div>
                     </div>
                   </Card>
                 ))}
@@ -155,7 +221,7 @@ const DatePlanner = () => {
             size="lg"
             className="w-full max-w-md rounded-full shadow-lg"
           >
-            {isComplete ? 'Create Our Song →' : 'Please select one from each category'}
+            {isComplete ? 'Create Our Song →' : 'Please select from each category'}
           </Button>
         </div>
       </div>
